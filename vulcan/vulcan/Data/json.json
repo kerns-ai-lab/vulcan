@@ -1,0 +1,29 @@
+{
+	"gameId": "e0d123e5f316bef78bfdf5a008837577",
+	"teams": [
+		{
+			"team": "1",
+			"rank": 1,
+			"players": [
+				{
+					"id": "username-1",
+					"mean": 25.0,
+					"std": 7.045,
+					"mult": 3
+				}
+			]
+		},
+		{
+			"team": "2",
+			"rank": 2,
+			"players": [
+				{
+					"id": "username-2",
+					"mean": 25.0,
+					"std": 7.045,
+					"mult": 3
+				}
+			]
+		}
+	]
+}
