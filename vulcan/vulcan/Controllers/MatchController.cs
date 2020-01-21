@@ -25,27 +25,38 @@ namespace Vulcan.Controllers
         [HttpPut("UpdateRatings")]
         public IActionResult Update(Match match)
         {
-            // 
-            Player p1 = new Player("user1");
-            Player p2 = new Player("user2");
-
+            // Lookup Gameinfo
+            // ... = _matchService.Get(match.GameId);
             GameInfo gameInfo = GameInfo.DefaultGameInfo;
 
-            var t1_players = new Player[] { };
-            // For team in teams
-            //      Construct team object
-            //      for player in players
-            //          Add player to team object
-            //
-            var t1 = new Team()
-                .AddPlayer(p1, new Rating(25, 7));
+            List<Team> moserTeams = new List<Team>();
+            List<int> moserTeamRanks = new List<int>();
+            match.Teams.ForEach(apiteam => {
+                var moserTeam = new Team();
+                apiteam.Players.ForEach(playerId => {
+                    var apiplayer = _playerService.Get(playerId);
+                    moserTeam.AddPlayer(new Player(apiplayer.Id), new Rating(apiplayer.Rating.Mean, apiplayer.Rating.Std));
+                });
+                moserTeams.Add(moserTeam);
+                moserTeamRanks.Add(apiteam.MatchRank);
+            });
+            
+            var teams = Teams.Concat(moserTeams.ToArray());
 
-            var t2 = new Team()
-                .AddPlayer(p2, new Rating(25, 7));
+            var newRatings = TrueSkillCalculator.CalculateNewRatings(gameInfo, teams, moserTeamRanks.ToArray());
 
-            var teams = Teams.Concat(t1, t2);
 
-            var newRatings = TrueSkillCalculator.CalculateNewRatings(gameInfo, teams, 1, 2);
+            foreach(KeyValuePair<Player, Rating> newRating in newRatings)
+            {
+                var player = new APIPlayer();
+                player.Id = newRating.Key.Id.ToString();
+                player.Rating = new APIRating {
+                    Mean = newRating.Value.Mean,
+                    Std = newRating.Value.StandardDeviation,
+                    Multiplier = newRating.Value.ConservativeRating
+                };
+                _playerService.Update(player.Id, player);
+            }
 
             return NoContent();
         }

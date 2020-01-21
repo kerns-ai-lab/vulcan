@@ -7,8 +7,8 @@ namespace Vulcan.Models
 {
     public class APITeam
     {
-        public string Id { get; set; }
-        public List<APIPlayer> Players { get; set; }
+        public string Team { get; set; }
+        public List<string> Players { get; set; }
         public int MatchRank { get; set; }
     }
 }

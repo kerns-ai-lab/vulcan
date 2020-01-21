@@ -1,28 +1,18 @@
 {
-	"gameId": "e0d123e5f316bef78bfdf5a008837577",
-	"teams": [
+	"GameId": "e0d123e5f316bef78bfdf5a008837577",
+	"Teams": [
 		{
-			"team": "1",
-			"rank": 1,
-			"players": [
-				{
-					"id": "username-1",
-					"mean": 25.0,
-					"std": 7.045,
-					"mult": 3
-				}
+			"Team": "1",
+			"MatchRank": 1,
+			"Players": [
+				"5e2673c9c5413f3f7823fa4d"
 			]
 		},
 		{
-			"team": "2",
-			"rank": 2,
-			"players": [
-				{
-					"id": "username-2",
-					"mean": 25.0,
-					"std": 7.045,
-					"mult": 3
-				}
+			"Team": "2",
+			"MatchRank": 2,
+			"Players": [
+				"5e2673fcc5413f3f7823fa4e"
 			]
 		}
 	]
