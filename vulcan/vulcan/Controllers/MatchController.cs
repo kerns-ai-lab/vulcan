@@ -29,12 +29,14 @@ namespace Vulcan.Controllers
             // ... = _matchService.Get(match.GameId);
             GameInfo gameInfo = GameInfo.DefaultGameInfo;
 
+            Dictionary<string, APIPlayer> apiPlayers = new Dictionary<string, APIPlayer>();
             List<Team> moserTeams = new List<Team>();
             List<int> moserTeamRanks = new List<int>();
             match.Teams.ForEach(apiteam => {
                 var moserTeam = new Team();
                 apiteam.Players.ForEach(playerId => {
                     var apiplayer = _playerService.Get(playerId);
+                    apiPlayers.Add(playerId, apiplayer);
                     moserTeam.AddPlayer(new Player(apiplayer.Id), new Rating(apiplayer.Rating.Mean, apiplayer.Rating.Std));
                 });
                 moserTeams.Add(moserTeam);
@@ -48,8 +50,8 @@ namespace Vulcan.Controllers
 
             foreach(KeyValuePair<Player, Rating> newRating in newRatings)
             {
-                var player = new APIPlayer();
-                player.Id = newRating.Key.Id.ToString();
+                APIPlayer player;
+                apiPlayers.TryGetValue(newRating.Key.Id.ToString(), out player);
                 player.Rating = new APIRating {
                     Mean = newRating.Value.Mean,
                     Std = newRating.Value.StandardDeviation,
