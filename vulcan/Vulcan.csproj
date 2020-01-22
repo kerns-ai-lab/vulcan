@@ -12,10 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Moserware.Skills">
-      <HintPath>..\..\..\Skills\Skills\bin\Release\Moserware.Skills.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Skills\Skills\Skills.csproj" />
+    <ProjectReference Include="..\Skills\UnitTests\UnitTests.csproj" />
   </ItemGroup>
-
 
 </Project>

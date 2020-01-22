@@ -1,0 +1,4 @@
+[submodule "Skills"]
+	path = Skills
+	url = https://github.com/kerns-ai-lab/Skills.git
+	branch = master
