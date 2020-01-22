@@ -15,10 +15,12 @@ namespace Vulcan.Controllers
     public class MatchController : ControllerBase
     {
         private readonly PlayerService _playerService;
+        private readonly GameService _gameService;
 
-        public MatchController(PlayerService playerService)
+        public MatchController(PlayerService playerService, GameService gameService)
         {
             _playerService = playerService;
+            _gameService = gameService;
         }
         
         // PUT: api/Skills/UpdateRatings
@@ -26,8 +28,14 @@ namespace Vulcan.Controllers
         public IActionResult Update(Match match)
         {
             // Lookup Gameinfo
-            // ... = _matchService.Get(match.GameId);
-            GameInfo gameInfo = GameInfo.DefaultGameInfo;
+            var game = _gameService.Get(match.GameId);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            GameInfo gameInfo = new GameInfo(game.InitialMean, game.InitialStd, game.Beta, game.DynamicsFactor, game.DrawProbability);
 
             Dictionary<string, APIPlayer> apiPlayers = new Dictionary<string, APIPlayer>();
             List<Team> moserTeams = new List<Team>();
