@@ -8,6 +8,7 @@ namespace Vulcan.Models
     public class VulcanDatabaseSettings : IVulcanDatabaseSettings
     {
         public string PlayersCollectionName { get; set; }
+        public string GamesCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }
@@ -15,6 +16,7 @@ namespace Vulcan.Models
     public interface IVulcanDatabaseSettings
     {
         string PlayersCollectionName { get; set; }
+        string GamesCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

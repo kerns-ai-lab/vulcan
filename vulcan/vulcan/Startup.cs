@@ -35,6 +35,7 @@ namespace Vulcan
             services.AddSingleton<IVulcanDatabaseSettings>(sp => sp.GetRequiredService<IOptions<VulcanDatabaseSettings>>().Value);
 
             services.AddSingleton<PlayerService>();
+            services.AddSingleton<GameService>();
 
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
         }

@@ -47,7 +47,6 @@ namespace Vulcan.Controllers
 
             var newRatings = TrueSkillCalculator.CalculateNewRatings(gameInfo, teams, moserTeamRanks.ToArray());
 
-
             foreach(KeyValuePair<Player, Rating> newRating in newRatings)
             {
                 APIPlayer player;
