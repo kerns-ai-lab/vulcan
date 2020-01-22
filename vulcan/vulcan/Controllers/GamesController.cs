@@ -14,20 +14,46 @@ namespace Vulcan.Controllers
     public class GamesController : ControllerBase
     {
 
-        private readonly GameService _gamesService;
+        private readonly GameService _gameService;
+        private readonly PlayerService _playerService;
 
-        public GamesController(GameService gamesService)
+        public GamesController(GameService gameService, PlayerService playerService)
         {
-            _gamesService = gamesService;
+            _gameService = gameService;
+            _playerService = playerService;
+            
+        }
+
+
+        [HttpGet("leaderboard/{id:length(24)}", Name ="Leaderboard")]
+        public ActionResult<List<APIPlayer>> Leaderboard(string id)
+        {
+            var game = _gameService.Get(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            // Do logic to correlate game to player list
+            // ...
+
+            var players = _playerService.Get();
+
+            if (players == null)
+            {
+                return NotFound();
+            }
+
+            return players.OrderByDescending(player => player.Rating.Mean).ToList();
         }
 
         [HttpGet]
-        public ActionResult<List<Game>> Get() => _gamesService.Get();
+        public ActionResult<List<Game>> Get() => _gameService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetGame")]
         public ActionResult<Game> Get(string id)
         {
-            var game = _gamesService.Get(id);
+            var game = _gameService.Get(id);
 
             if (game == null)
             {
@@ -40,34 +66,34 @@ namespace Vulcan.Controllers
         [HttpPost]
         public ActionResult<Game> Create(Game game)
         {
-            _gamesService.Create(game);
+            _gameService.Create(game);
             return CreatedAtRoute("GetGame", new { id = game.Id.ToString(), game });
         }
 
         [HttpPut("{id:length(24)}")]
         public IActionResult Update(string id, Game gameIn)
         {
-            var game = _gamesService.Get(id);
+            var game = _gameService.Get(id);
 
             if (game == null)
             {
                 return NotFound();
             }
 
-            _gamesService.Update(id, gameIn);
+            _gameService.Update(id, gameIn);
             return NoContent();
         }
 
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)
         {
-            var game = _gamesService.Get(id);
+            var game = _gameService.Get(id);
             if (game == null)
             {
                 return NotFound();
             }
 
-            _gamesService.Remove(game.Id);
+            _gameService.Remove(game.Id);
 
             return NoContent();
         }

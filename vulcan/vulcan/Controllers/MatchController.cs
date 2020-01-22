@@ -23,7 +23,7 @@ namespace Vulcan.Controllers
             _gameService = gameService;
         }
         
-        // PUT: api/Skills/UpdateRatings
+        // PUT: api/Match/UpdateRatings
         [HttpPut("UpdateRatings")]
         public IActionResult Update(Match match)
         {
